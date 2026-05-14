@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import StatusBar from '../components/StatusBar.vue'
+import StoryTheatre from '../components/StoryTheatre.vue'
 import locations from '../data/location.json'
 import { useGameEngineStore } from '../store/gameEngine'
 import { usePlayerStore } from '../store/player'
@@ -8,6 +9,7 @@ import { usePlayerStore } from '../store/player'
 const engine = useGameEngineStore()
 const player = usePlayerStore()
 const activeLocationId = ref(locations[0].id)
+const isMapOpen = ref(false)
 
 const activeLocation = computed(() => locations.find((location) => location.id === activeLocationId.value) ?? locations[0])
 
@@ -22,14 +24,54 @@ const attributes = computed(() => [
   { label: '处分', value: player.dangerLevel },
 ])
 
-const mobileControls = computed(() => [
-  ...locations.map((location) => ({ id: `loc-${location.id}`, type: 'location', label: location.name, payload: location })),
-  ...activeLocation.value.actions.map((action) => ({ id: `act-${action.id}`, type: 'action', label: action.label, payload: action })),
-].slice(0, 4))
+const storyBlocks = computed(() => {
+  const blocks = [
+    {
+      id: `ambient-${activeLocation.value.id}`,
+      type: 'ambient',
+      kicker: '环境提示',
+      title: activeLocation.value.name,
+      text: activeLocation.value.tagline,
+      meta: engine.timeLabel,
+    },
+  ]
 
-function changeLocation(locationId) {
+  if (engine.activeEvent) {
+    blocks.push({
+      id: `event-${engine.activeEvent.id}`,
+      type: 'event',
+      kicker: `危红羁绊触点 / ${engine.activeEvent.locationName}`,
+      title: engine.activeEvent.title,
+      text: engine.activeEvent.summary,
+      meta: engine.activeEvent.triggeredAt,
+      choices: engine.activeEvent.choices,
+    })
+  }
+
+  engine.logEntries.forEach((entry, index) => {
+    blocks.push({
+      id: `log-${index}-${entry}`,
+      type: 'log',
+      kicker: index === 0 ? '最新记录' : '校内回声',
+      text: entry,
+      meta: index === 0 ? engine.phase : null,
+    })
+  })
+
+  return blocks
+})
+
+const mobileActions = computed(() => activeLocation.value.actions.slice(0, 2))
+
+function travelToLocation(locationId) {
+  if (locationId === activeLocationId.value) {
+    isMapOpen.value = false
+    return
+  }
+
   activeLocationId.value = locationId
   engine.drawEvent(activeLocation.value, engine.getTimeSnapshot())
+  isMapOpen.value = false
 }
 
 function runAction(action) {
@@ -38,15 +80,6 @@ function runAction(action) {
   player.changeRisk(action.risk ?? 0)
   player.changeExposure(action.exposure ?? 0)
   engine.performAction(action)
-}
-
-function runMobileControl(control) {
-  if (control.type === 'location') {
-    changeLocation(control.payload.id)
-    return
-  }
-
-  runAction(control.payload)
 }
 
 function resolveEvent(choice) {
@@ -68,7 +101,7 @@ function resolveEvent(choice) {
     <StatusBar />
 
     <div class="stage-layout">
-      <aside class="desktop-left-panel">
+      <aside class="desktop-left-panel custom-scrollbar">
         <div class="portrait-card">
           <div class="portrait-noise" />
           <div class="relative z-10">
@@ -89,7 +122,7 @@ function resolveEvent(choice) {
       <section class="story-panel">
         <div class="story-header">
           <div class="min-w-0">
-            <p class="section-kicker">校内异常记录</p>
+            <p class="section-kicker">DoL式动态剧本模版槽</p>
             <h1 class="mt-2 truncate font-display text-3xl text-slate-100 lg:text-5xl">{{ activeLocation.name }}</h1>
           </div>
           <div class="hidden rounded-full border border-red-400/30 bg-red-950/30 px-3 py-1 text-xs text-red-100 lg:block">
@@ -97,54 +130,13 @@ function resolveEvent(choice) {
           </div>
         </div>
 
-        <p class="mt-3 text-sm leading-6 text-slate-300 lg:max-w-2xl">{{ activeLocation.tagline }}</p>
-
-        <section class="story-scroll">
-          <TransitionGroup name="log" tag="div" class="space-y-3">
-            <p v-for="entry in engine.logEntries" :key="entry" class="log-line">
-              {{ entry }}
-            </p>
-          </TransitionGroup>
-        </section>
-
-        <Transition name="event">
-          <section v-if="engine.activeEvent" class="event-cover">
-            <div class="event-card">
-              <div class="flex flex-col gap-3 border-b border-red-300/20 pb-4 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <p class="section-kicker">异常支线 / {{ engine.activeEvent.locationName }}</p>
-                  <h2 class="mt-2 font-display text-3xl text-slate-100">{{ engine.activeEvent.title }}</h2>
-                </div>
-                <p class="rounded-full border border-red-300/25 bg-black/30 px-3 py-1 text-xs text-red-100">
-                  {{ engine.activeEvent.triggeredAt }}
-                </p>
-              </div>
-
-              <p class="mt-5 text-sm leading-7 text-slate-200">{{ engine.activeEvent.summary }}</p>
-
-              <div class="mt-6 grid gap-3 sm:grid-cols-2">
-                <button
-                  v-for="choice in engine.activeEvent.choices"
-                  :key="choice.id"
-                  type="button"
-                  class="event-choice"
-                  @click="resolveEvent(choice)"
-                >
-                  <span class="block text-left text-sm font-semibold text-slate-100">{{ choice.label }}</span>
-                  <span class="mt-2 block text-left text-xs leading-5 text-slate-300">
-                    耗时 {{ choice.costHours ?? 0 }}h {{ choice.costMinutes ?? 0 }}m
-                  </span>
-                </button>
-              </div>
-            </div>
-          </section>
-        </Transition>
+        <StoryTheatre :blocks="storyBlocks" @resolve-event="resolveEvent" />
       </section>
 
-      <aside class="desktop-right-panel">
+      <aside class="desktop-right-panel custom-scrollbar">
         <section class="radar-card">
           <div class="flex items-center justify-between">
-            <p class="section-kicker">全域高中雷达</p>
+            <p class="section-kicker">全学校暗格雷达</p>
             <span class="text-xs text-red-200/80">LIVE</span>
           </div>
           <div class="radar-map">
@@ -155,9 +147,25 @@ function resolveEvent(choice) {
               class="radar-dot"
               :class="{ 'radar-dot-active': location.id === activeLocationId }"
               :style="{ left: `${location.radar.x}%`, top: `${location.radar.y}%` }"
-              @click="changeLocation(location.id)"
+              @click="travelToLocation(location.id)"
             >
               <span>{{ location.name }}</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="mt-4">
+          <p class="section-kicker">地理换轨导航</p>
+          <div class="mt-3 grid gap-2">
+            <button
+              v-for="location in locations"
+              :key="location.id"
+              type="button"
+              class="location-jump"
+              :class="{ 'location-jump-active': location.id === activeLocationId }"
+              @click="travelToLocation(location.id)"
+            >
+              {{ location.name }}
             </button>
           </div>
         </section>
@@ -179,7 +187,7 @@ function resolveEvent(choice) {
           </div>
         </section>
 
-        <section class="mt-4 hidden lg:block">
+        <section class="mt-4">
           <p class="section-kicker">可执行日常</p>
           <div class="mt-3 grid gap-3">
             <button
@@ -200,18 +208,49 @@ function resolveEvent(choice) {
       </aside>
     </div>
 
-    <nav class="bottom-sheet lg:hidden" aria-label="移动端主控">
+    <nav class="bottom-action-bar lg:hidden" aria-label="移动端行动栏">
       <button
-        v-for="control in mobileControls"
-        :key="control.id"
+        v-for="action in mobileActions"
+        :key="action.id"
         type="button"
-        class="bottom-control"
-        :class="{ 'bottom-control-active': control.type === 'location' && control.payload.id === activeLocationId }"
-        @click="runMobileControl(control)"
+        class="bottom-action"
+        @click="runAction(action)"
       >
-        <span class="text-[10px] uppercase tracking-[0.18em] text-slate-400">{{ control.type === 'location' ? '地点' : '行动' }}</span>
-        <span class="mt-1 line-clamp-2 text-sm font-semibold text-slate-100">{{ control.label }}</span>
+        <span class="text-[10px] uppercase tracking-[0.18em] text-slate-400">行动</span>
+        <span class="mt-1 line-clamp-2 text-sm font-semibold text-slate-100">{{ action.label }}</span>
       </button>
     </nav>
+
+    <button type="button" class="map-orb lg:hidden" aria-label="打开全学校暗格地图" @click="isMapOpen = true">
+      <span class="text-lg">⌖</span>
+      <span class="text-[10px] uppercase tracking-[0.18em]">MAP</span>
+    </button>
+
+    <Transition name="drawer">
+      <section v-if="isMapOpen" class="mobile-map-drawer lg:hidden">
+        <div class="drawer-handle" />
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p class="section-kicker">全学校网块暗格</p>
+            <h2 class="mt-1 font-display text-2xl text-slate-100">地理换轨导航</h2>
+          </div>
+          <button type="button" class="drawer-close" @click="isMapOpen = false">返回</button>
+        </div>
+
+        <div class="mt-4 grid gap-2">
+          <button
+            v-for="location in locations"
+            :key="location.id"
+            type="button"
+            class="drawer-location"
+            :class="{ 'drawer-location-active': location.id === activeLocationId }"
+            @click="travelToLocation(location.id)"
+          >
+            <span class="font-semibold text-slate-100">{{ location.name }}</span>
+            <span class="mt-1 line-clamp-2 text-xs leading-5 text-slate-400">{{ location.tagline }}</span>
+          </button>
+        </div>
+      </section>
+    </Transition>
   </main>
 </template>

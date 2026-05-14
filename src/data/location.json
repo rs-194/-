@@ -1,21 +1,94 @@
 [
   {
-    "id": "locker-hall",
-    "name": "东翼储物柜走廊",
-    "tagline": "蓝灰色柜门排成过分整齐的队列，编号牌在晨光里像一排冷静的牙。",
-    "image": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=80",
-    "eventChance": 0.36,
-    "radar": { "x": 34, "y": 32 },
+    "id": "discipline-office",
+    "name": "教导纪律部",
+    "tagline": "磨砂玻璃门后，处分表、放血治疗预约单和晨间广播稿被钉在同一块软木板上。",
+    "image": "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80",
+    "eventChance": 0.42,
+    "radar": { "x": 48, "y": 24 },
     "npcs": [
-      { "id": "locker-217", "name": "217号储物柜", "status": "内侧点名", "threat": 44, "initial": "217" },
-      { "id": "chalk-monitor", "name": "粉笔值日生", "status": "擦除缺席者", "threat": 31, "initial": "CH" },
-      { "id": "hall-speaker", "name": "走廊广播口", "status": "重复校规第九条", "threat": 53, "initial": "PA" }
+      { "id": "detention-nurse", "name": "留校护士", "status": "校准采血针", "threat": 68, "initial": "DN" },
+      { "id": "principal-voice", "name": "校长广播残响", "status": "背诵处分格式", "threat": 57, "initial": "PA" },
+      { "id": "rule-ledger", "name": "校规账册", "status": "自动翻页", "threat": 49, "initial": "RL" }
+    ],
+    "events": [
+      {
+        "id": "blood-detention",
+        "title": "处分单要求签血名",
+        "summary": "办公桌上的处分单自行滑到你面前。签名栏没有墨线，只有一条很细的红色凹槽，像纸张已经提前知道你的血型。",
+        "phases": ["晨间", "午后", "黄昏", "夜间"],
+        "startHour": 7,
+        "endHour": 22,
+        "weight": 3,
+        "tags": ["danger"],
+        "choices": [
+          {
+            "id": "sign-with-ink",
+            "label": "用普通墨水伪签",
+            "costHours": 0,
+            "costMinutes": 35,
+            "stamina": -2,
+            "funds": 0,
+            "risk": 6,
+            "exposure": 4,
+            "result": "墨水在纸上凝成错误的脉搏。处分单没有拒绝，只把你的名字读得更慢。"
+          },
+          {
+            "id": "accept-bleeding",
+            "label": "接受放血治疗",
+            "costHours": 1,
+            "costMinutes": 20,
+            "stamina": -14,
+            "funds": 0,
+            "risk": -5,
+            "exposure": 2,
+            "result": "护士抽走一小管血。她说样本很安静，安静得像在装睡。"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "audit-record",
+        "label": "核对处分档案",
+        "costHours": 1,
+        "costMinutes": 0,
+        "stamina": -5,
+        "funds": 3,
+        "risk": -2,
+        "exposure": 1,
+        "result": "你把处分档案按字母排序，发现有几页只记录梦里犯下的迟到。"
+      },
+      {
+        "id": "listen-pa",
+        "label": "监听校内广播",
+        "costHours": 0,
+        "costMinutes": 45,
+        "stamina": -3,
+        "funds": 0,
+        "risk": 3,
+        "exposure": 2,
+        "result": "广播里的停顿比句子更长。你听见自己的名字被夹在两条校规之间。"
+      }
+    ]
+  },
+  {
+    "id": "savings-lockers",
+    "name": "校储蓄柜前",
+    "tagline": "一排金属储蓄柜嵌进墙里，每个投币口都保持微笑，等待学生把零用钱或别的东西塞进去。",
+    "image": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=80",
+    "eventChance": 0.38,
+    "radar": { "x": 33, "y": 47 },
+    "npcs": [
+      { "id": "locker-217", "name": "217号储蓄柜", "status": "内侧点名", "threat": 44, "initial": "217" },
+      { "id": "coin-teller", "name": "硬币清点者", "status": "数到你的脉搏", "threat": 36, "initial": "CT" },
+      { "id": "chalk-monitor", "name": "粉笔值日生", "status": "擦除缺席者", "threat": 31, "initial": "CH" }
     ],
     "events": [
       {
         "id": "locker-homeroom",
-        "title": "储物柜召开班会",
-        "summary": "第 217 号储物柜从内侧敲了三下。所有柜门同时弹开一条缝，露出湿润的黑暗。里面传来班主任的声音，要求你解释为什么昨晚的梦没有按格式交上来。",
+        "title": "储蓄柜召开班会",
+        "summary": "第 217 号储蓄柜从内侧敲了三下。所有柜门同时弹开一条缝，露出湿润的黑暗。里面传来班主任的声音，要求你解释为什么昨晚的梦没有按格式交上来。",
         "phases": ["晨间", "午后", "黄昏"],
         "startHour": 6,
         "endHour": 19,
@@ -31,52 +104,18 @@
             "funds": 0,
             "risk": -3,
             "exposure": 1,
-            "result": "你把梦写在测验试卷背面。储物柜吞下纸张，吐出一张盖着纪律办公室印章的迟到豁免单。"
+            "result": "你把梦写在测验试卷背面。储蓄柜吞下纸张，吐出一张盖着纪律办公室印章的迟到豁免单。"
           },
           {
-            "id": "refuse-lockers",
-            "label": "拒绝参加班会",
+            "id": "pay-locker",
+            "label": "投进三枚银币",
             "costHours": 0,
-            "costMinutes": 40,
-            "stamina": -2,
-            "funds": 0,
-            "risk": 5,
-            "exposure": 5,
-            "result": "柜门合拢时夹住你的影子。广播随后宣布你进入留校察看，附带一次放血治疗预约。"
-          }
-        ]
-      },
-      {
-        "id": "blackboard-detention",
-        "title": "黑板写下你的处分",
-        "summary": "走廊尽头那块没人使用的移动黑板自行翻面，粉笔写出你的全名。处分栏后面空着，像在等一个更准确的罪名。",
-        "phases": ["黄昏", "夜间", "深夜"],
-        "startHour": 17,
-        "endHour": 3,
-        "weight": 2,
-        "tags": ["weird", "danger"],
-        "choices": [
-          {
-            "id": "erase-name",
-            "label": "擦掉自己的名字",
-            "costHours": 1,
-            "costMinutes": 20,
-            "stamina": -8,
-            "funds": 0,
-            "risk": 7,
-            "exposure": 4,
-            "result": "板擦下传来软骨摩擦的声音。你的名字没了，黑板却学会了你的笔迹。"
-          },
-          {
-            "id": "add-penalty",
-            "label": "填上留校察看",
-            "costHours": 0,
-            "costMinutes": 30,
+            "costMinutes": 25,
             "stamina": -1,
-            "funds": 0,
+            "funds": -3,
             "risk": -2,
-            "exposure": 2,
-            "result": "黑板接受了这个保守答案。粉笔灰落在鞋面上，像一层干净的骨粉。"
+            "exposure": 1,
+            "result": "硬币没有落底。储蓄柜深处传来吞咽声，然后很礼貌地退还你一枚带牙印的硬币。"
           }
         ]
       }
@@ -84,7 +123,7 @@
     "actions": [
       {
         "id": "check-locker",
-        "label": "整理储物柜",
+        "label": "整理储蓄柜",
         "costHours": 1,
         "costMinutes": 0,
         "stamina": -4,
@@ -107,109 +146,75 @@
     ]
   },
   {
-    "id": "athletic-field",
-    "name": "棒球场与广播操草坪",
-    "tagline": "白线、看台和旗杆被午后的风压得很平，草坪下方偶尔传来集体呼吸。",
-    "image": "https://images.unsplash.com/photo-1508344928928-7165b67de128?auto=format&fit=crop&w=1200&q=80",
-    "eventChance": 0.4,
-    "radar": { "x": 67, "y": 58 },
+    "id": "old-blood-basement",
+    "name": "古血生物地下室",
+    "tagline": "地下室贴着生物实验室的标签，排水沟里却有比校史更早的血在缓慢转弯。",
+    "image": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+    "eventChance": 0.48,
+    "radar": { "x": 61, "y": 73 },
     "npcs": [
-      { "id": "uniform-mass", "name": "队服集合体", "status": "等待皮肤", "threat": 62, "initial": "UF" },
-      { "id": "drill-voice", "name": "广播操女声", "status": "节拍偏移", "threat": 72, "initial": "VO" },
-      { "id": "bench-shadow", "name": "看台影子", "status": "鼓掌但无手", "threat": 39, "initial": "BS" }
+      { "id": "old-blood-thing", "name": "古血生物", "status": "在培养皿外呼吸", "threat": 86, "initial": "OB" },
+      { "id": "lab-table", "name": "课桌标本台", "status": "保持温热", "threat": 63, "initial": "LT" },
+      { "id": "drain-choir", "name": "排水沟合唱", "status": "练习校歌", "threat": 72, "initial": "DC" }
     ],
     "events": [
       {
-        "id": "baseball-uniform-pulse",
-        "title": "棒球队服开始搏动",
-        "summary": "器材间里的棒球队服挂成一排。胸前校徽缓慢鼓起，像有什么细长的东西正在布料下寻找袖口。",
-        "phases": ["晨间", "午后", "黄昏"],
-        "startHour": 8,
-        "endHour": 20,
-        "weight": 3,
-        "tags": ["weird"],
-        "choices": [
-          {
-            "id": "fold-uniform",
-            "label": "按校规重新折叠",
-            "costHours": 0,
-            "costMinutes": 30,
-            "stamina": -4,
-            "funds": 0,
-            "risk": -3,
-            "exposure": 1,
-            "result": "你按四十五度角折好袖口。里面的触须安静下来，只在布料内侧留下你的座位号。"
-          },
-          {
-            "id": "wear-uniform",
-            "label": "穿上队服点名",
-            "costHours": 1,
-            "costMinutes": 0,
-            "stamina": -9,
-            "funds": 4,
-            "risk": 6,
-            "exposure": 4,
-            "result": "队服贴住皮肤，替你完成一次完美挥棒。看台没有观众，却响起整齐的掌声。"
-          }
-        ]
-      },
-      {
-        "id": "assembly-drill",
-        "title": "广播操口令错了一拍",
-        "summary": "扩音器里的女声把第八节广播操念成了陌生音节。全体学生的手臂停在半空，草坪裂缝里伸出许多同样遵守节拍的触须。",
-        "phases": ["晨间", "夜间", "深夜"],
-        "startHour": 6,
+        "id": "basement-rollcall",
+        "title": "培养皿替你点名",
+        "summary": "一排培养皿亮起微弱红光。每个皿底都写着你的一个旧称呼，最深处那个还在发音练习，声音像从喉咙里长出的湿纸。",
+        "phases": ["黄昏", "夜间", "深夜"],
+        "startHour": 16,
         "endHour": 4,
-        "weight": 2,
-        "tags": ["weird", "danger"],
+        "weight": 4,
+        "tags": ["danger"],
         "choices": [
           {
-            "id": "keep-drill",
-            "label": "继续完成动作",
-            "costHours": 1,
-            "costMinutes": 30,
-            "stamina": -12,
+            "id": "answer-rollcall",
+            "label": "低声答到",
+            "costHours": 0,
+            "costMinutes": 50,
+            "stamina": -7,
             "funds": 0,
-            "risk": -2,
+            "risk": -4,
             "exposure": 3,
-            "result": "你把动作做到最后一拍。触须整齐缩回土里，体育老师在点名册上给你画了一个黑色五角星。"
+            "result": "培养皿满意地暗下去。你的喉咙里多了一点冷，但名单上少了一个红圈。"
           },
           {
-            "id": "break-formation",
-            "label": "打乱队形逃离",
-            "costHours": 0,
-            "costMinutes": 45,
-            "stamina": -5,
-            "funds": 0,
-            "risk": 8,
+            "id": "break-dish",
+            "label": "打碎培养皿",
+            "costHours": 1,
+            "costMinutes": 10,
+            "stamina": -12,
+            "funds": 1,
+            "risk": 9,
             "exposure": 6,
-            "result": "你冲出队列。扩音器立刻宣布你的名字，处分建议为留校察看、禁食早餐，以及一次简短的放血治疗。"
+            "result": "玻璃碎片像鱼群一样退开。地下室广播宣布你破坏公物，并建议立即放血治疗。"
           }
         ]
       }
     ],
     "actions": [
       {
-        "id": "morning-drill",
-        "label": "参加广播操",
+        "id": "sort-specimens",
+        "label": "整理生物标本",
         "costHours": 1,
-        "costMinutes": 0,
-        "stamina": -7,
-        "funds": 0,
-        "risk": -2,
-        "exposure": 1,
-        "result": "你跟着扩音器抬臂、转体、低头。第三排有学生始终慢半拍，但没人敢指出来。"
+        "costMinutes": 30,
+        "stamina": -9,
+        "funds": 5,
+        "risk": 3,
+        "exposure": 2,
+        "result": "你把标本瓶按标签排序。最后一瓶没有标签，里面的眼睛却认得你。"
       },
       {
-        "id": "grade-tests",
-        "label": "整理测验试卷",
+        "id": "clean-drain",
+        "label": "清理排水沟",
         "costHours": 2,
-        "costMinutes": 30,
-        "stamina": -12,
-        "funds": 8,
-        "risk": 2,
-        "exposure": 2,
-        "result": "你替教务处按分数排序试卷。零分那叠自己移动到最上方，每张卷子都写着同一个梦。"
+        "costMinutes": 0,
+        "stamina": -13,
+        "funds": 7,
+        "risk": 6,
+        "exposure": 4,
+        "result": "你捞出一团湿透的校服领带。它在桶里轻轻绞紧，像还在遵守着某种纪律。"
       }
     ]
   }
