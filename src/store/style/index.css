@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background: #120609;
+  }
+
+  body {
+    min-width: 320px;
+    margin: 0;
+    font-family: theme('fontFamily.body');
+    background: #120609;
+  }
+
+  button {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .stage-backdrop {
+    @apply fixed inset-0 bg-cover bg-center opacity-30 blur-[1px] transition-all duration-700;
+  }
+
+  .stage-vignette {
+    @apply fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(127,29,29,0.34),transparent_38%),linear-gradient(135deg,rgba(18,6,9,0.72),rgba(40,7,11,0.94)_58%,rgba(8,3,5,0.98))];
+  }
+
+  .status-shell {
+    @apply grid gap-3 sm:grid-cols-2 xl:grid-cols-[1.5fr_1fr_.8fr_.9fr];
+  }
+
+  .status-card {
+    @apply rounded-lg border border-brass/25 bg-black/35 p-4 shadow-seal backdrop-blur-md;
+  }
+
+  .status-card-wide {
+    @apply sm:col-span-2 xl:col-span-1;
+  }
+
+  .status-label,
+  .section-kicker {
+    @apply text-xs font-semibold uppercase tracking-[0.22em] text-brass/90;
+  }
+
+  .stage-card {
+    @apply min-h-[520px] rounded-lg border border-brass/20 bg-red-950/30 p-5 shadow-infernal backdrop-blur-md sm:p-7;
+  }
+
+  .log-screen {
+    @apply min-h-[320px] rounded-lg border border-brass/25 bg-black/45 p-5 shadow-seal backdrop-blur-lg;
+  }
+
+  .log-line {
+    @apply rounded-md border border-white/10 bg-white/[0.045] px-4 py-3 text-sm leading-7 text-stone-200;
+  }
+
+  .panel-shell {
+    @apply rounded-lg border border-brass/25 bg-black/45 p-5 shadow-seal backdrop-blur-md;
+  }
+
+  .location-button {
+    @apply w-full rounded-md border border-white/10 bg-white/[0.04] px-4 py-3 text-left text-sm text-stone-200 transition hover:border-brass/45 hover:bg-brass/10;
+  }
+
+  .location-button-active {
+    @apply border-brass/70 bg-brass/15 text-parchment shadow-[inset_0_0_18px_rgba(214,168,79,0.12)];
+  }
+
+  .action-button {
+    @apply flex min-h-16 w-full items-center justify-between gap-3 rounded-lg border border-red-200/15 bg-red-950/45 px-4 py-3 transition hover:-translate-y-0.5 hover:border-brass/50 hover:bg-red-900/55 focus:outline-none focus:ring-2 focus:ring-brass/45;
+  }
+}
+
+.log-enter-active,
+.log-leave-active {
+  transition: all 320ms ease;
+}
+
+.log-enter-from,
+.log-leave-to {
+  transform: translateY(-8px);
+  opacity: 0;
+}

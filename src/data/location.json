@@ -1,0 +1,62 @@
+[
+  {
+    "id": "chapel-yard",
+    "name": "旧礼拜庭院",
+    "tagline": "碎石路尽头，褪色圣像俯视着来往学生。",
+    "image": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1200&q=80",
+    "actions": [
+      {
+        "id": "listen-bells",
+        "label": "聆听钟声",
+        "costHours": 1,
+        "costMinutes": 0,
+        "stamina": -4,
+        "funds": 0,
+        "risk": -2,
+        "exposure": 1,
+        "result": "你在庭院边缘停下，钟声像铁羽一样扫过耳畔，潜伏的节奏稍微稳了些。"
+      },
+      {
+        "id": "search-ashes",
+        "label": "翻查灰烬",
+        "costHours": 2,
+        "costMinutes": 0,
+        "stamina": -11,
+        "funds": 3,
+        "risk": 5,
+        "exposure": 3,
+        "result": "你在祭台裂缝中找到几枚旧币，也惊动了巡夜修士的视线。"
+      }
+    ]
+  },
+  {
+    "id": "red-library",
+    "name": "绯红藏书馆",
+    "tagline": "厚重书架之间漂浮着蜡油、羊皮纸和禁忌墨水的味道。",
+    "image": "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80",
+    "actions": [
+      {
+        "id": "copy-ledger",
+        "label": "抄录账册",
+        "costHours": 1,
+        "costMinutes": 30,
+        "stamina": -7,
+        "funds": 8,
+        "risk": 2,
+        "exposure": 1,
+        "result": "你替馆员誊写一页账册，换来小额报酬和一枚沉默的眼神。"
+      },
+      {
+        "id": "study-seals",
+        "label": "研读封印学",
+        "costHours": 2,
+        "costMinutes": 30,
+        "stamina": -13,
+        "funds": 0,
+        "risk": -4,
+        "exposure": 2,
+        "result": "你读懂了几处古旧封印的边角逻辑，知道该如何避开某些注视。"
+      }
+    ]
+  }
+]
