@@ -4,14 +4,14 @@
 
 @layer base {
   html {
-    background: #120609;
+    background: #030407;
   }
 
   body {
     min-width: 320px;
     margin: 0;
     font-family: theme('fontFamily.body');
-    background: #120609;
+    background: #030407;
   }
 
   button {
@@ -20,69 +20,154 @@
 }
 
 @layer components {
+  .stage-root {
+    @apply min-h-screen overflow-hidden bg-[#030407] text-slate-100;
+  }
+
   .stage-backdrop {
-    @apply fixed inset-0 bg-cover bg-center opacity-30 blur-[1px] transition-all duration-700;
+    @apply fixed inset-0 bg-cover bg-center opacity-20 blur-[2px] saturate-[.75] transition-all duration-700;
   }
 
   .stage-vignette {
-    @apply fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(127,29,29,0.34),transparent_38%),linear-gradient(135deg,rgba(18,6,9,0.72),rgba(40,7,11,0.94)_58%,rgba(8,3,5,0.98))];
+    @apply fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(35,52,76,0.44),transparent_34%),linear-gradient(180deg,rgba(3,4,7,0.82),rgba(7,10,17,0.94)_42%,rgba(0,0,0,0.98))];
   }
 
-  .status-shell {
-    @apply grid gap-3 sm:grid-cols-2 xl:grid-cols-[1.5fr_1fr_.8fr_.9fr];
+  .mobile-status {
+    @apply fixed left-3 right-3 top-3 z-30 flex items-center gap-3 rounded-2xl border border-slate-500/20 bg-slate-950/70 px-3 py-2 shadow-[0_18px_50px_rgba(0,0,0,0.55)] backdrop-blur-xl lg:left-6 lg:right-6 lg:top-5;
   }
 
-  .status-card {
-    @apply rounded-lg border border-brass/25 bg-black/35 p-4 shadow-seal backdrop-blur-md;
+  .meter-chip {
+    @apply min-w-0 rounded-xl border border-slate-600/20 bg-black/35 px-2 py-1;
   }
 
-  .status-card-wide {
-    @apply sm:col-span-2 xl:col-span-1;
+  .meter-chip span {
+    @apply block truncate text-[10px] text-slate-400;
   }
 
-  .status-label,
+  .meter-chip strong {
+    @apply mt-0.5 block text-right text-[10px] text-slate-100;
+  }
+
+  .meter-track {
+    @apply mt-1 h-1 overflow-hidden rounded-full bg-slate-900;
+  }
+
+  .meter-fill {
+    @apply h-full rounded-full shadow-[0_0_12px_currentColor];
+  }
+
+  .stage-layout {
+    @apply relative z-10 flex min-h-screen flex-col px-3 pb-36 pt-24 lg:grid lg:grid-cols-[20%_50%_30%] lg:gap-4 lg:px-6 lg:pb-6 lg:pt-24;
+  }
+
+  .desktop-left-panel,
+  .desktop-right-panel {
+    @apply hidden min-h-[calc(100vh-7.5rem)] rounded-3xl border border-slate-500/15 bg-slate-950/60 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.5)] backdrop-blur-xl lg:block;
+  }
+
+  .portrait-card {
+    @apply relative min-h-52 overflow-hidden rounded-3xl border border-slate-500/15 bg-[radial-gradient(circle_at_50%_10%,rgba(148,163,184,0.2),transparent_35%),linear-gradient(160deg,rgba(15,23,42,0.95),rgba(45,12,20,0.55))] p-4;
+  }
+
+  .portrait-noise {
+    @apply absolute inset-x-8 bottom-0 h-40 rounded-t-full bg-[linear-gradient(180deg,rgba(226,232,240,0.16),rgba(127,29,29,0.2)_46%,rgba(0,0,0,0.55))] blur-sm;
+  }
+
   .section-kicker {
-    @apply text-xs font-semibold uppercase tracking-[0.22em] text-brass/90;
+    @apply text-[10px] font-semibold uppercase tracking-[0.24em] text-red-200/80;
   }
 
-  .stage-card {
-    @apply relative min-h-[520px] overflow-hidden rounded-lg border border-brass/20 bg-red-950/30 p-5 shadow-infernal backdrop-blur-md sm:p-7;
+  .stat-tile {
+    @apply rounded-2xl border border-slate-600/20 bg-black/30 p-3;
   }
 
-  .log-screen {
-    @apply min-h-[320px] rounded-lg border border-brass/25 bg-black/45 p-5 shadow-seal backdrop-blur-lg;
+  .stat-tile dt {
+    @apply text-[10px] text-slate-400;
+  }
+
+  .stat-tile dd {
+    @apply mt-1 font-display text-lg text-slate-100;
+  }
+
+  .story-panel {
+    @apply relative flex min-h-[calc(100vh-15.5rem)] flex-col overflow-hidden rounded-3xl border border-slate-500/15 bg-slate-950/60 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.58)] backdrop-blur-xl lg:min-h-[calc(100vh-7.5rem)] lg:p-6;
+  }
+
+  .story-header {
+    @apply flex items-start justify-between gap-4 border-b border-slate-500/15 pb-4;
+  }
+
+  .story-scroll {
+    @apply mt-5 min-h-0 flex-1 overflow-y-auto rounded-2xl border border-slate-600/15 bg-black/35 p-3 shadow-[inset_0_0_40px_rgba(0,0,0,0.45)] lg:p-5;
+  }
+
+  .story-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .story-scroll::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(127, 29, 29, 0.7);
   }
 
   .log-line {
-    @apply rounded-md border border-white/10 bg-white/[0.045] px-4 py-3 text-sm leading-7 text-stone-200;
+    @apply rounded-2xl border border-slate-600/15 bg-slate-900/45 px-4 py-3 text-sm leading-7 text-slate-200 shadow-[0_12px_32px_rgba(0,0,0,0.28)];
   }
 
-  .panel-shell {
-    @apply rounded-lg border border-brass/25 bg-black/45 p-5 shadow-seal backdrop-blur-md;
+  .radar-card {
+    @apply rounded-3xl border border-slate-600/20 bg-black/30 p-4;
   }
 
-  .location-button {
-    @apply w-full rounded-md border border-white/10 bg-white/[0.04] px-4 py-3 text-left text-sm text-stone-200 transition hover:border-brass/45 hover:bg-brass/10;
+  .radar-map {
+    @apply relative mt-4 aspect-square overflow-hidden rounded-3xl border border-slate-500/20 bg-[radial-gradient(circle_at_50%_50%,rgba(14,165,233,0.18),transparent_19%),radial-gradient(circle_at_50%_50%,transparent_31%,rgba(148,163,184,0.12)_32%,transparent_33%),linear-gradient(90deg,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(0deg,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[length:100%_100%,100%_100%,28px_28px,28px_28px];
   }
 
-  .location-button-active {
-    @apply border-brass/70 bg-brass/15 text-parchment shadow-[inset_0_0_18px_rgba(214,168,79,0.12)];
+  .radar-dot {
+    @apply absolute h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-200/70 bg-cyan-300 shadow-[0_0_22px_rgba(103,232,249,0.8)] transition hover:scale-125 hover:bg-red-500 hover:shadow-[0_0_28px_rgba(239,68,68,0.9)];
+  }
+
+  .radar-dot span {
+    @apply pointer-events-none absolute left-4 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full border border-slate-500/20 bg-black/80 px-2 py-1 text-[10px] text-slate-100 lg:block;
+  }
+
+  .radar-dot-active {
+    @apply h-5 w-5 bg-red-500 shadow-[0_0_34px_rgba(239,68,68,1)];
+  }
+
+  .npc-row {
+    @apply flex items-center gap-3 rounded-2xl border border-slate-600/15 bg-black/30 p-3 transition hover:border-red-400/40 hover:bg-red-950/30;
+  }
+
+  .npc-avatar {
+    @apply grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-red-300/20 bg-slate-900 text-xs font-bold text-red-100 shadow-[inset_0_0_18px_rgba(127,29,29,0.32)];
   }
 
   .action-button {
-    @apply flex min-h-16 w-full items-center justify-between gap-3 rounded-lg border border-red-200/15 bg-red-950/45 px-4 py-3 transition hover:-translate-y-0.5 hover:border-brass/50 hover:bg-red-900/55 focus:outline-none focus:ring-2 focus:ring-brass/45;
+    @apply flex min-h-16 w-full items-center justify-between gap-3 rounded-2xl border border-slate-600/15 bg-slate-900/40 px-4 py-3 transition hover:-translate-y-0.5 hover:border-red-400/50 hover:bg-red-950/55 focus:outline-none focus:ring-2 focus:ring-red-500/45;
+  }
+
+  .bottom-sheet {
+    @apply fixed bottom-3 left-3 right-3 z-30 grid grid-cols-2 gap-2 rounded-[2rem] border border-slate-500/20 bg-slate-950/80 p-3 shadow-[0_-18px_70px_rgba(0,0,0,0.72)] backdrop-blur-xl;
+  }
+
+  .bottom-control {
+    @apply min-h-20 rounded-[1.45rem] border border-slate-600/20 bg-slate-900/75 px-3 py-3 text-left transition active:scale-[0.98] hover:border-red-400/50 hover:bg-red-950/80 focus:outline-none focus:ring-2 focus:ring-red-500/45;
+  }
+
+  .bottom-control-active {
+    @apply border-red-300/60 bg-red-950/80 shadow-[inset_0_0_24px_rgba(239,68,68,0.18)];
   }
 
   .event-cover {
-    @apply absolute inset-0 z-20 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md;
+    @apply absolute inset-0 z-20 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md;
   }
 
   .event-card {
-    @apply w-full max-w-3xl rounded-lg border border-brass/35 bg-red-950/80 p-5 shadow-infernal sm:p-7;
+    @apply w-full max-w-3xl rounded-3xl border border-red-300/25 bg-slate-950/90 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.65)] sm:p-7;
   }
 
   .event-choice {
-    @apply min-h-24 rounded-lg border border-brass/20 bg-black/30 px-4 py-4 transition hover:-translate-y-0.5 hover:border-brass/60 hover:bg-brass/10 focus:outline-none focus:ring-2 focus:ring-brass/45;
+    @apply min-h-24 rounded-2xl border border-slate-600/20 bg-slate-900/55 px-4 py-4 transition hover:-translate-y-0.5 hover:border-red-300/55 hover:bg-red-950/70 focus:outline-none focus:ring-2 focus:ring-red-500/45;
   }
 }
 

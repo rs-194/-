@@ -30,7 +30,7 @@ function runAction(action) {
 <template>
   <aside class="panel-shell">
     <section>
-      <p class="section-kicker">地标切换</p>
+      <p class="section-kicker">校园地点</p>
       <div class="mt-3 grid gap-2">
         <button
           v-for="location in locations"
@@ -46,7 +46,7 @@ function runAction(action) {
     </section>
 
     <section class="mt-8">
-      <p class="section-kicker">行动开关</p>
+      <p class="section-kicker">日常安排</p>
       <div class="mt-3 grid gap-3">
         <button
           v-for="action in currentLocation.actions"
@@ -61,7 +61,7 @@ function runAction(action) {
               耗时 {{ action.costHours ?? 0 }}h {{ action.costMinutes ?? 0 }}m
             </span>
           </span>
-          <span class="rounded-full bg-black/25 px-2 py-1 text-xs text-brass">推进</span>
+          <span class="rounded-full bg-black/25 px-2 py-1 text-xs text-brass">执行</span>
         </button>
       </div>
     </section>

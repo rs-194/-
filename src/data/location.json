@@ -1,15 +1,21 @@
 [
   {
-    "id": "chapel-yard",
-    "name": "旧礼拜庭院",
-    "tagline": "碎石路尽头，褪色圣像俯视着来往学生。",
-    "image": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1200&q=80",
-    "eventChance": 0.34,
+    "id": "locker-hall",
+    "name": "东翼储物柜走廊",
+    "tagline": "蓝灰色柜门排成过分整齐的队列，编号牌在晨光里像一排冷静的牙。",
+    "image": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=80",
+    "eventChance": 0.36,
+    "radar": { "x": 34, "y": 32 },
+    "npcs": [
+      { "id": "locker-217", "name": "217号储物柜", "status": "内侧点名", "threat": 44, "initial": "217" },
+      { "id": "chalk-monitor", "name": "粉笔值日生", "status": "擦除缺席者", "threat": 31, "initial": "CH" },
+      { "id": "hall-speaker", "name": "走廊广播口", "status": "重复校规第九条", "threat": 53, "initial": "PA" }
+    ],
     "events": [
       {
-        "id": "goat-confession",
-        "title": "会忏悔的黑山羊",
-        "summary": "一只披着小斗篷的黑山羊堵在告解亭前，要求你替它向院长承认偷吃了三页禁书。",
+        "id": "locker-homeroom",
+        "title": "储物柜召开班会",
+        "summary": "第 217 号储物柜从内侧敲了三下。所有柜门同时弹开一条缝，露出湿润的黑暗。里面传来班主任的声音，要求你解释为什么昨晚的梦没有按格式交上来。",
         "phases": ["晨间", "午后", "黄昏"],
         "startHour": 6,
         "endHour": 19,
@@ -17,33 +23,33 @@
         "tags": ["weird"],
         "choices": [
           {
-            "id": "fake-prayer",
-            "label": "替它编一段祷词",
+            "id": "submit-dream",
+            "label": "补交梦境报告",
             "costHours": 1,
             "costMinutes": 0,
-            "stamina": -5,
-            "funds": 2,
+            "stamina": -6,
+            "funds": 0,
             "risk": -3,
             "exposure": 1,
-            "result": "你用庄严口吻胡诌了一段祷词，黑山羊感动得掉下一枚藏在角里的银币。"
+            "result": "你把梦写在测验试卷背面。储物柜吞下纸张，吐出一张盖着纪律办公室印章的迟到豁免单。"
           },
           {
-            "id": "report-goat",
-            "label": "把山羊交给修士",
+            "id": "refuse-lockers",
+            "label": "拒绝参加班会",
             "costHours": 0,
             "costMinutes": 40,
             "stamina": -2,
             "funds": 0,
-            "risk": 4,
+            "risk": 5,
             "exposure": 5,
-            "result": "修士严肃记录了山羊的供词，也顺手记下你为何能听懂它说话。"
+            "result": "柜门合拢时夹住你的影子。广播随后宣布你进入留校察看，附带一次放血治疗预约。"
           }
         ]
       },
       {
-        "id": "saint-statue-wink",
-        "title": "圣像突然眨眼",
-        "summary": "庭院中央的残破圣像朝你眨了一下眼，石质嘴唇里滚出一句含糊的下注建议。",
+        "id": "blackboard-detention",
+        "title": "黑板写下你的处分",
+        "summary": "走廊尽头那块没人使用的移动黑板自行翻面，粉笔写出你的全名。处分栏后面空着，像在等一个更准确的罪名。",
         "phases": ["黄昏", "夜间", "深夜"],
         "startHour": 17,
         "endHour": 3,
@@ -51,66 +57,72 @@
         "tags": ["weird", "danger"],
         "choices": [
           {
-            "id": "follow-whisper",
-            "label": "听从下注建议",
+            "id": "erase-name",
+            "label": "擦掉自己的名字",
             "costHours": 1,
             "costMinutes": 20,
-            "stamina": -6,
-            "funds": 10,
-            "risk": 8,
+            "stamina": -8,
+            "funds": 0,
+            "risk": 7,
             "exposure": 4,
-            "result": "你在地下小赌局赢了钱，但圣像的眼睛在远处继续追着你转。"
+            "result": "板擦下传来软骨摩擦的声音。你的名字没了，黑板却学会了你的笔迹。"
           },
           {
-            "id": "ignore-statue",
-            "label": "装作没看见",
+            "id": "add-penalty",
+            "label": "填上留校察看",
             "costHours": 0,
             "costMinutes": 30,
             "stamina": -1,
             "funds": 0,
             "risk": -2,
-            "exposure": 0,
-            "result": "你低头快步离开，石像在背后发出很轻的一声叹息。"
+            "exposure": 2,
+            "result": "黑板接受了这个保守答案。粉笔灰落在鞋面上，像一层干净的骨粉。"
           }
         ]
       }
     ],
     "actions": [
       {
-        "id": "listen-bells",
-        "label": "聆听钟声",
+        "id": "check-locker",
+        "label": "整理储物柜",
         "costHours": 1,
         "costMinutes": 0,
         "stamina": -4,
         "funds": 0,
         "risk": -2,
         "exposure": 1,
-        "result": "你在庭院边缘停下，钟声像铁羽一样扫过耳畔，潜伏的节奏稍微稳了些。"
+        "result": "你把课本、棒球队服和未署名的检讨书排齐。柜门里短暂传出第二个心跳。"
       },
       {
-        "id": "search-ashes",
-        "label": "翻查灰烬",
+        "id": "copy-notes",
+        "label": "抄写黑板笔记",
         "costHours": 2,
         "costMinutes": 0,
-        "stamina": -11,
-        "funds": 3,
-        "risk": 5,
+        "stamina": -10,
+        "funds": 2,
+        "risk": 4,
         "exposure": 3,
-        "result": "你在祭台裂缝中找到几枚旧币，也惊动了巡夜修士的视线。"
+        "result": "你抄下几行几何公式，最后一行却自行变成校规：不可直视体育馆地板下的东西。"
       }
     ]
   },
   {
-    "id": "red-library",
-    "name": "绯红藏书馆",
-    "tagline": "厚重书架之间漂浮着蜡油、羊皮纸和禁忌墨水的味道。",
-    "image": "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80",
-    "eventChance": 0.38,
+    "id": "athletic-field",
+    "name": "棒球场与广播操草坪",
+    "tagline": "白线、看台和旗杆被午后的风压得很平，草坪下方偶尔传来集体呼吸。",
+    "image": "https://images.unsplash.com/photo-1508344928928-7165b67de128?auto=format&fit=crop&w=1200&q=80",
+    "eventChance": 0.4,
+    "radar": { "x": 67, "y": 58 },
+    "npcs": [
+      { "id": "uniform-mass", "name": "队服集合体", "status": "等待皮肤", "threat": 62, "initial": "UF" },
+      { "id": "drill-voice", "name": "广播操女声", "status": "节拍偏移", "threat": 72, "initial": "VO" },
+      { "id": "bench-shadow", "name": "看台影子", "status": "鼓掌但无手", "threat": 39, "initial": "BS" }
+    ],
     "events": [
       {
-        "id": "ledger-bites-back",
-        "title": "账册咬人",
-        "summary": "一本账册忽然合上，叼住你的袖口，纸页上浮出一行字：先交滞纳金，再谈自由。",
+        "id": "baseball-uniform-pulse",
+        "title": "棒球队服开始搏动",
+        "summary": "器材间里的棒球队服挂成一排。胸前校徽缓慢鼓起，像有什么细长的东西正在布料下寻找袖口。",
         "phases": ["晨间", "午后", "黄昏"],
         "startHour": 8,
         "endHour": 20,
@@ -118,86 +130,86 @@
         "tags": ["weird"],
         "choices": [
           {
-            "id": "pay-ledger",
-            "label": "喂它几枚银币",
+            "id": "fold-uniform",
+            "label": "按校规重新折叠",
             "costHours": 0,
-            "costMinutes": 20,
-            "stamina": -1,
-            "funds": -4,
-            "risk": -4,
-            "exposure": 0,
-            "result": "账册嚼得很慢，满意后吐出一张盖着旧印的通行便笺。"
+            "costMinutes": 30,
+            "stamina": -4,
+            "funds": 0,
+            "risk": -3,
+            "exposure": 1,
+            "result": "你按四十五度角折好袖口。里面的触须安静下来，只在布料内侧留下你的座位号。"
           },
           {
-            "id": "wrestle-ledger",
-            "label": "和账册拔河",
+            "id": "wear-uniform",
+            "label": "穿上队服点名",
             "costHours": 1,
             "costMinutes": 0,
-            "stamina": -10,
-            "funds": 1,
+            "stamina": -9,
+            "funds": 4,
             "risk": 6,
-            "exposure": 3,
-            "result": "你赢了，但半个阅览室都看见你和会计制度打了一架。"
+            "exposure": 4,
+            "result": "队服贴住皮肤，替你完成一次完美挥棒。看台没有观众，却响起整齐的掌声。"
           }
         ]
       },
       {
-        "id": "ink-rain",
-        "title": "天花板开始下墨雨",
-        "summary": "黑色墨滴从穹顶倒着落下，每一滴都在地毯上写出一个不太礼貌的预言。",
-        "phases": ["夜间", "深夜"],
-        "startHour": 20,
+        "id": "assembly-drill",
+        "title": "广播操口令错了一拍",
+        "summary": "扩音器里的女声把第八节广播操念成了陌生音节。全体学生的手臂停在半空，草坪裂缝里伸出许多同样遵守节拍的触须。",
+        "phases": ["晨间", "夜间", "深夜"],
+        "startHour": 6,
         "endHour": 4,
         "weight": 2,
         "tags": ["weird", "danger"],
         "choices": [
           {
-            "id": "collect-ink",
-            "label": "收集预言墨水",
+            "id": "keep-drill",
+            "label": "继续完成动作",
             "costHours": 1,
             "costMinutes": 30,
-            "stamina": -8,
-            "funds": 6,
-            "risk": 7,
-            "exposure": 4,
-            "result": "你装满一小瓶会辱骂主人的墨水，黑市大概会喜欢这种货。"
+            "stamina": -12,
+            "funds": 0,
+            "risk": -2,
+            "exposure": 3,
+            "result": "你把动作做到最后一拍。触须整齐缩回土里，体育老师在点名册上给你画了一个黑色五角星。"
           },
           {
-            "id": "hide-under-desk",
-            "label": "钻到桌下避雨",
+            "id": "break-formation",
+            "label": "打乱队形逃离",
             "costHours": 0,
             "costMinutes": 45,
-            "stamina": -3,
+            "stamina": -5,
             "funds": 0,
-            "risk": -1,
-            "exposure": 1,
-            "result": "你在桌下等到墨雨停歇，只被一句预言贴在鞋底：明天别吃炖菜。"
+            "risk": 8,
+            "exposure": 6,
+            "result": "你冲出队列。扩音器立刻宣布你的名字，处分建议为留校察看、禁食早餐，以及一次简短的放血治疗。"
           }
         ]
       }
     ],
     "actions": [
       {
-        "id": "copy-ledger",
-        "label": "抄录账册",
+        "id": "morning-drill",
+        "label": "参加广播操",
         "costHours": 1,
-        "costMinutes": 30,
+        "costMinutes": 0,
         "stamina": -7,
-        "funds": 8,
-        "risk": 2,
+        "funds": 0,
+        "risk": -2,
         "exposure": 1,
-        "result": "你替馆员誊写一页账册，换来小额报酬和一枚沉默的眼神。"
+        "result": "你跟着扩音器抬臂、转体、低头。第三排有学生始终慢半拍，但没人敢指出来。"
       },
       {
-        "id": "study-seals",
-        "label": "研读封印学",
+        "id": "grade-tests",
+        "label": "整理测验试卷",
         "costHours": 2,
         "costMinutes": 30,
-        "stamina": -13,
-        "funds": 0,
-        "risk": -4,
+        "stamina": -12,
+        "funds": 8,
+        "risk": 2,
         "exposure": 2,
-        "result": "你读懂了几处古旧封印的边角逻辑，知道该如何避开某些注视。"
+        "result": "你替教务处按分数排序试卷。零分那叠自己移动到最上方，每张卷子都写着同一个梦。"
       }
     ]
   }

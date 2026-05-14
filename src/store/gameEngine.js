@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-const weekdays = ['月曜', '火曜', '水曜', '木曜', '金曜', '土曜', '日曜']
+const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 
 function padHour(hour) {
   return String(hour).padStart(2, '0')
@@ -13,7 +13,7 @@ export const useGameEngineStore = defineStore('gameEngine', {
     hour: 7,
     minute: 0,
     activeEvent: null,
-    logEntries: ['钟楼第七声刚落下，你在圣魔学院偏厅醒来。'],
+    logEntries: ['晨间铃声响起，你在 Saint Demon Academy 的宿舍床位上醒来。走廊广播要求全体学生准时出操，违者留校察看。'],
   }),
   getters: {
     weekday: (state) => weekdays[state.weekdayIndex],
@@ -65,7 +65,7 @@ export const useGameEngineStore = defineStore('gameEngine', {
 
       if (candidates.length === 0) {
         this.activeEvent = null
-        this.pushLog(`你抵达${location.name}，这里暂时只有日常的低语。`)
+        this.pushLog(`你抵达${location.name}。储物柜门依次轻响，像有人在里面做点名。`)
         return null
       }
 
@@ -76,7 +76,7 @@ export const useGameEngineStore = defineStore('gameEngine', {
 
       if (Math.random() > chance) {
         this.activeEvent = null
-        this.pushLog(`你抵达${location.name}，没有异常发生，但气氛并不清白。`)
+        this.pushLog(`你抵达${location.name}。黑板上的粉笔灰自动排成校规编号，又很快散开。`)
         return null
       }
 
@@ -88,7 +88,7 @@ export const useGameEngineStore = defineStore('gameEngine', {
         locationName: location.name,
         triggeredAt: `${this.dateLabel} ${this.timeLabel}`,
       }
-      this.pushLog(`意外支线触发：${event.title}`)
+      this.pushLog(`异常支线触发：${event.title}`)
 
       return this.activeEvent
     },
@@ -106,7 +106,7 @@ export const useGameEngineStore = defineStore('gameEngine', {
       if (elapsedDays > 0) {
         this.day += elapsedDays
         this.weekdayIndex = (this.weekdayIndex + elapsedDays) % weekdays.length
-        this.pushLog(`昼夜翻过 ${elapsedDays} 次，学院的暗红钟盘重新校准了时间。`)
+        this.pushLog(`校内广播跨过 ${elapsedDays} 次午夜，考勤系统把你的名字重新钉回名单。`)
       }
     },
     pushLog(message) {
