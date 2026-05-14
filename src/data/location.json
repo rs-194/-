@@ -4,6 +4,77 @@
     "name": "旧礼拜庭院",
     "tagline": "碎石路尽头，褪色圣像俯视着来往学生。",
     "image": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1200&q=80",
+    "eventChance": 0.34,
+    "events": [
+      {
+        "id": "goat-confession",
+        "title": "会忏悔的黑山羊",
+        "summary": "一只披着小斗篷的黑山羊堵在告解亭前，要求你替它向院长承认偷吃了三页禁书。",
+        "phases": ["晨间", "午后", "黄昏"],
+        "startHour": 6,
+        "endHour": 19,
+        "weight": 3,
+        "tags": ["weird"],
+        "choices": [
+          {
+            "id": "fake-prayer",
+            "label": "替它编一段祷词",
+            "costHours": 1,
+            "costMinutes": 0,
+            "stamina": -5,
+            "funds": 2,
+            "risk": -3,
+            "exposure": 1,
+            "result": "你用庄严口吻胡诌了一段祷词，黑山羊感动得掉下一枚藏在角里的银币。"
+          },
+          {
+            "id": "report-goat",
+            "label": "把山羊交给修士",
+            "costHours": 0,
+            "costMinutes": 40,
+            "stamina": -2,
+            "funds": 0,
+            "risk": 4,
+            "exposure": 5,
+            "result": "修士严肃记录了山羊的供词，也顺手记下你为何能听懂它说话。"
+          }
+        ]
+      },
+      {
+        "id": "saint-statue-wink",
+        "title": "圣像突然眨眼",
+        "summary": "庭院中央的残破圣像朝你眨了一下眼，石质嘴唇里滚出一句含糊的下注建议。",
+        "phases": ["黄昏", "夜间", "深夜"],
+        "startHour": 17,
+        "endHour": 3,
+        "weight": 2,
+        "tags": ["weird", "danger"],
+        "choices": [
+          {
+            "id": "follow-whisper",
+            "label": "听从下注建议",
+            "costHours": 1,
+            "costMinutes": 20,
+            "stamina": -6,
+            "funds": 10,
+            "risk": 8,
+            "exposure": 4,
+            "result": "你在地下小赌局赢了钱，但圣像的眼睛在远处继续追着你转。"
+          },
+          {
+            "id": "ignore-statue",
+            "label": "装作没看见",
+            "costHours": 0,
+            "costMinutes": 30,
+            "stamina": -1,
+            "funds": 0,
+            "risk": -2,
+            "exposure": 0,
+            "result": "你低头快步离开，石像在背后发出很轻的一声叹息。"
+          }
+        ]
+      }
+    ],
     "actions": [
       {
         "id": "listen-bells",
@@ -34,6 +105,77 @@
     "name": "绯红藏书馆",
     "tagline": "厚重书架之间漂浮着蜡油、羊皮纸和禁忌墨水的味道。",
     "image": "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80",
+    "eventChance": 0.38,
+    "events": [
+      {
+        "id": "ledger-bites-back",
+        "title": "账册咬人",
+        "summary": "一本账册忽然合上，叼住你的袖口，纸页上浮出一行字：先交滞纳金，再谈自由。",
+        "phases": ["晨间", "午后", "黄昏"],
+        "startHour": 8,
+        "endHour": 20,
+        "weight": 3,
+        "tags": ["weird"],
+        "choices": [
+          {
+            "id": "pay-ledger",
+            "label": "喂它几枚银币",
+            "costHours": 0,
+            "costMinutes": 20,
+            "stamina": -1,
+            "funds": -4,
+            "risk": -4,
+            "exposure": 0,
+            "result": "账册嚼得很慢，满意后吐出一张盖着旧印的通行便笺。"
+          },
+          {
+            "id": "wrestle-ledger",
+            "label": "和账册拔河",
+            "costHours": 1,
+            "costMinutes": 0,
+            "stamina": -10,
+            "funds": 1,
+            "risk": 6,
+            "exposure": 3,
+            "result": "你赢了，但半个阅览室都看见你和会计制度打了一架。"
+          }
+        ]
+      },
+      {
+        "id": "ink-rain",
+        "title": "天花板开始下墨雨",
+        "summary": "黑色墨滴从穹顶倒着落下，每一滴都在地毯上写出一个不太礼貌的预言。",
+        "phases": ["夜间", "深夜"],
+        "startHour": 20,
+        "endHour": 4,
+        "weight": 2,
+        "tags": ["weird", "danger"],
+        "choices": [
+          {
+            "id": "collect-ink",
+            "label": "收集预言墨水",
+            "costHours": 1,
+            "costMinutes": 30,
+            "stamina": -8,
+            "funds": 6,
+            "risk": 7,
+            "exposure": 4,
+            "result": "你装满一小瓶会辱骂主人的墨水，黑市大概会喜欢这种货。"
+          },
+          {
+            "id": "hide-under-desk",
+            "label": "钻到桌下避雨",
+            "costHours": 0,
+            "costMinutes": 45,
+            "stamina": -3,
+            "funds": 0,
+            "risk": -1,
+            "exposure": 1,
+            "result": "你在桌下等到墨雨停歇，只被一句预言贴在鞋底：明天别吃炖菜。"
+          }
+        ]
+      }
+    ],
     "actions": [
       {
         "id": "copy-ledger",

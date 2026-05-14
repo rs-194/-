@@ -46,7 +46,7 @@
   }
 
   .stage-card {
-    @apply min-h-[520px] rounded-lg border border-brass/20 bg-red-950/30 p-5 shadow-infernal backdrop-blur-md sm:p-7;
+    @apply relative min-h-[520px] overflow-hidden rounded-lg border border-brass/20 bg-red-950/30 p-5 shadow-infernal backdrop-blur-md sm:p-7;
   }
 
   .log-screen {
@@ -72,6 +72,18 @@
   .action-button {
     @apply flex min-h-16 w-full items-center justify-between gap-3 rounded-lg border border-red-200/15 bg-red-950/45 px-4 py-3 transition hover:-translate-y-0.5 hover:border-brass/50 hover:bg-red-900/55 focus:outline-none focus:ring-2 focus:ring-brass/45;
   }
+
+  .event-cover {
+    @apply absolute inset-0 z-20 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md;
+  }
+
+  .event-card {
+    @apply w-full max-w-3xl rounded-lg border border-brass/35 bg-red-950/80 p-5 shadow-infernal sm:p-7;
+  }
+
+  .event-choice {
+    @apply min-h-24 rounded-lg border border-brass/20 bg-black/30 px-4 py-4 transition hover:-translate-y-0.5 hover:border-brass/60 hover:bg-brass/10 focus:outline-none focus:ring-2 focus:ring-brass/45;
+  }
 }
 
 .log-enter-active,
@@ -82,5 +94,16 @@
 .log-enter-from,
 .log-leave-to {
   transform: translateY(-8px);
+  opacity: 0;
+}
+
+.event-enter-active,
+.event-leave-active {
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+
+.event-enter-from,
+.event-leave-to {
+  transform: scale(0.985);
   opacity: 0;
 }

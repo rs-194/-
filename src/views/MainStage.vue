@@ -18,6 +18,21 @@ const attributes = computed(() => [
   { label: '意志', value: player.willpower },
   { label: '暴露', value: `${player.exposure}%` },
 ])
+
+function changeLocation(locationId) {
+  activeLocationId.value = locationId
+  engine.drawEvent(activeLocation.value, engine.getTimeSnapshot())
+}
+
+function resolveEvent(choice) {
+  player.changeStamina(choice.stamina ?? 0)
+  player.changeFunds(choice.funds ?? 0)
+  player.changeRisk(choice.risk ?? 0)
+  player.changeExposure(choice.exposure ?? 0)
+  engine.spendClock(choice.costHours ?? 0, choice.costMinutes ?? 0)
+  engine.pushLog(choice.result)
+  engine.clearEvent()
+}
 </script>
 
 <template>
@@ -56,9 +71,42 @@ const attributes = computed(() => [
               </p>
             </TransitionGroup>
           </section>
+
+          <Transition name="event">
+            <section v-if="engine.activeEvent" class="event-cover">
+              <div class="event-card">
+                <div class="flex flex-col gap-3 border-b border-brass/25 pb-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <p class="section-kicker">奇葩意外支线 / {{ engine.activeEvent.locationName }}</p>
+                    <h2 class="mt-2 font-display text-3xl text-parchment">{{ engine.activeEvent.title }}</h2>
+                  </div>
+                  <p class="rounded-full border border-brass/30 bg-black/30 px-3 py-1 text-xs text-brass">
+                    {{ engine.activeEvent.triggeredAt }}
+                  </p>
+                </div>
+
+                <p class="mt-5 text-sm leading-7 text-stone-200">{{ engine.activeEvent.summary }}</p>
+
+                <div class="mt-6 grid gap-3 sm:grid-cols-2">
+                  <button
+                    v-for="choice in engine.activeEvent.choices"
+                    :key="choice.id"
+                    type="button"
+                    class="event-choice"
+                    @click="resolveEvent(choice)"
+                  >
+                    <span class="block text-left text-sm font-semibold text-parchment">{{ choice.label }}</span>
+                    <span class="mt-2 block text-left text-xs leading-5 text-stone-300">
+                      耗时 {{ choice.costHours ?? 0 }}h {{ choice.costMinutes ?? 0 }}m
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </section>
+          </Transition>
         </div>
 
-        <ActionPanel :location-id="activeLocationId" @change-location="activeLocationId = $event" />
+        <ActionPanel :location-id="activeLocationId" @change-location="changeLocation" />
       </section>
     </div>
   </main>
